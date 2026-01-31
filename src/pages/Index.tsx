@@ -1,11 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Sidebar } from '@/components/Sidebar';
+import { Header } from '@/components/Header';
+import { KanbanBoard } from '@/components/KanbanBoard';
+import { mockProjects } from '@/data/mockData';
 
 const Index = () => {
+  const [activeProjectId, setActiveProjectId] = useState(mockProjects[0].id);
+  const activeProject = mockProjects.find((p) => p.id === activeProjectId) || mockProjects[0];
+
+  const handleCreateTask = () => {
+    // TODO: Implement task creation modal
+    console.log('Create task');
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="flex h-screen bg-background overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar
+        activeProject={activeProjectId}
+        onProjectChange={setActiveProjectId}
+      />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header
+          projectName={activeProject.name}
+          onCreateTask={handleCreateTask}
+        />
+        
+        {/* Kanban Board */}
+        <main className="flex-1 overflow-hidden bg-gradient-to-br from-background via-background to-muted/20">
+          <KanbanBoard />
+        </main>
       </div>
     </div>
   );
